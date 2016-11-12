@@ -31,19 +31,24 @@
 class SupplyOrderVoucher extends ObjectModel
 {
     /**
-     * @var int Detail of the Voucher (1 voucher many product to receipt)
+     * @var int id of supply order
      */
-  //  public $id_supply_order_voucher;
 
     /**
-     * @var int Detail of the Voucher (1 voucher many product to receipt)
+     * @var int id of supply order history
      */
+
+    /**
+     * @var int id of supply order
+     */
+
+
+
     public $id_supply_order;
 
     public $id_supply_order_history;
 
     public $date_add;
-
 
 
     /**
@@ -54,11 +59,11 @@ class SupplyOrderVoucher extends ObjectModel
         'primary' => 'id_supply_order_voucher',
         'fields' => array(
              'id_supply_order' =>            array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'required' => false),
-             'id_supply_order_history' =>            array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'required' => false),
-             'date_add' =>                array('type' => self::TYPE_DATE, 'validate' => 'isDate')
-
+             'id_supply_order_history' =>    array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'required' => false),
+             'date_add' =>                   array('type' => self::TYPE_DATE, 'validate' => 'isDate')
         ),
     );
+
 
     /**
      * @see ObjectModel::$webserviceParameters
@@ -74,60 +79,45 @@ class SupplyOrderVoucher extends ObjectModel
 
 
 
-
-    
-
-  public function getEntriesCollectionVoucher()
+    //Function to get all supply order receipt conresponding with the supply order voucher
+    public function getEntriesCollectionVoucher()
     {
         $query = new DbQuery();
         $query->select('id_employee as empid, concat(employee_lastname,\' \',employee_firstname) as empname,date_add,name, upc, reference,quantity, quantity_expected,
-                        case (unit_price_te mod 1 > 0) 
-                        when true then round(unit_price_te, 3)
-                         else round(unit_price_te, 0)  
-                         end as unit_price_te,
+            case (unit_price_te mod 1 > 0) 
+            when true then round(unit_price_te, 3)
+            else round(unit_price_te, 0)  
+            end as unit_price_te,
                          
-                         case (discount_rate mod 1 > 0) 
-                        when true then concat(round(discount_rate, 1),\'%\')
-                         else concat(round(discount_rate,0),\'%\')
-                         end as discount,
+            case (discount_rate mod 1 > 0) 
+            when true then concat(round(discount_rate, 1),\'%\')
+            else concat(round(discount_rate,0),\'%\')
+            end as discount,
                          
-                        case ((price_with_discount_te/quantity_expected) mod 1 > 0) 
-                        when true then round(price_with_discount_te/quantity_expected, 3)
-                         else round(price_with_discount_te/quantity_expected,0)
-                         end as unit_price_dis_te,
-                        concat(round(tax_rate),\'%\') as tax_rate,
+            case ((price_with_discount_te/quantity_expected) mod 1 > 0) 
+            when true then round(price_with_discount_te/quantity_expected, 3)
+            else round(price_with_discount_te/quantity_expected,0)
+            end as unit_price_dis_te,
+            concat(round(tax_rate),\'%\') as tax_rate,
 
-                        case ((price_ti/quantity_expected) mod 1 > 0) 
-                        when true then round((price_ti/quantity_expected), 3)
-                         else round((price_ti/quantity_expected), 0)  
-                         end as unit_price_dis_ti,
+            case ((price_ti/quantity_expected) mod 1 > 0) 
+            when true then round((price_ti/quantity_expected), 3)
+            else round((price_ti/quantity_expected), 0)  
+            end as unit_price_dis_ti,
                          
-                         case ((quantity*(price_ti/quantity_expected)) mod 1 > 0) 
-                        when true then round((quantity*(price_ti/quantity_expected)), 3)
-                         else round((quantity*(price_ti/quantity_expected)), 0)  
-                         end as total_item_price
-                        ');
+            case ((quantity*(price_ti/quantity_expected)) mod 1 > 0) 
+            when true then round((quantity*(price_ti/quantity_expected)), 3)
+            else round((quantity*(price_ti/quantity_expected)), 0)  
+            end as total_item_price
+            ');
+
         $query->from('supply_order_receipt_history', 'a');
         $query->join('INNER JOIN '._DB_PREFIX_.'supply_order_detail b ON (`a`.id_supply_order_detail=`b`.id_supply_order_detail)');
         $query->where('a.`id_supply_order_voucher` = '.(int)$this->id);
-       // d($query);
-      
-       $supply_order_voucher_products = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
-
-      /*  $sql = 'select id_employee as empid, concat(employee_lastname,\' \',employee_firstname) as empname,date_add,name, upc, reference,quantity, quantity_expected, ROUND(price_ti/quantity_expected,0) as unit_price, ROUND(quantity*(price_ti/quantity_expected),0) as total_item_price
-                from '._DB_PREFIX_.'supply_order_receipt_history a ,  '._DB_PREFIX_.'supply_order_detail b
-                where a.id_supply_order_detail=b.id_supply_order_detail
-                and a.id_supply_order_voucher = '.(int)$this->id;
-
-
-        $supply_order_voucher_products = Db::getInstance()->executeS($sql, true); */
-
-
+           
+        $supply_order_voucher_products = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
         return $supply_order_voucher_products;
     }
-
-
-
 
 
 }

@@ -1,13 +1,7 @@
 <?php
 class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
 {
-   
-    public function setMedia() {
-        parent::setMedia();
-        Tools::addJS(_PS_MODULE_DIR_.'supplyordervoucherpdf/js/Ha.js');
-        Tools::addCSS(_PS_MODULE_DIR_.'supplyordervoucherpdf/css/Ha.css'); 
-    }
- 
+      
     /*
     * module: supplyordervoucherpdf
     * date: 2016-11-10 22:38:24
@@ -60,8 +54,9 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                 'callback' => 'printDocument',
                 'orderby' => false,
                 'search' => false
-            )
+            ),
         );
+
         $this->displayInformation($this->l('This interface allows you to manage supply orders.').'<br />');
         $this->displayInformation($this->l('You can create pre-filled order templates, from which you can build actual orders much quicker.').'<br />');
         if (count($this->warehouses) <= 1) {
@@ -250,7 +245,8 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     * version: 1.0
     */
     public function renderForm()
-    {	$DefaultSOReference = $this->l('SO PREFIX').(string)((int)$this->getCurrentSupplyOrderID()+1);
+    {	
+        $DefaultSOReference = $this->l('SO PREFIX').(string)((int)$this->getCurrentSupplyOrderID()+1);
     	
         if (Tools::isSubmit('addsupply_order') ||
             Tools::isSubmit('updatesupply_order') ||
@@ -426,7 +422,7 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     }
       
  
-
+   
     /*
     * module: supplyordervoucherpdf
     * date: 2016-11-10 22:38:24
@@ -531,7 +527,7 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     }
       
  
-   
+    
     /*
     * module: supplyordervoucherpdf
     * date: 2016-11-10 22:38:24
@@ -539,28 +535,27 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     */
     public function printDocument($id_supply_order, $tr)
     {    
-
-        $content = '';
-        $supply_order = new SupplyOrder((int)$id_supply_order);
+         $content = '';
+         $supply_order = new SupplyOrder((int)$id_supply_order);
       
-        $supply_order_vouchers = $supply_order->getSupplyOrderVoucherCollection((int)$supply_order->id_lang);
+         $supply_order_vouchers = $supply_order->getSupplyOrderVoucherCollection((int)$supply_order->id_lang);
          
-        if (!Validate::isLoadedObject($supply_order)) {
+            if (!Validate::isLoadedObject($supply_order)) {
                 return;
-        }
-
-        $supply_order_state = new SupplyOrderState($supply_order->id_supply_order_state);
+            }
+         $supply_order_state = new SupplyOrderState($supply_order->id_supply_order_state);
          
-        if (!Validate::isLoadedObject($supply_order_state)) {
+         if (!Validate::isLoadedObject($supply_order_state)) {
             return;
-        }
+            }
 
-        if ($supply_order_state->editable == false) {
-
+         if ($supply_order_state->editable == false) {
+         
+            
             $content .= '<style>.bootstrap .popover{max-width:500px}</style>
-                                <a data-toggle="popover" tabindex="0" role="button" rel="popover" class="btn btn-default po-doc-popover"><i class="icon-file-text"></i></a>
-                                <div class="po-doc-popover-content" style="display: none">
-                                    <p>Tải <strong>phiếu mua hàng</strong>: '.'<a href="'.$this->context->link->getAdminLink('AdminPdf').'&submitAction=generateSupplyOrderFormPDF&id_supply_order='.$supply_order->id.'">PDF</a>, '.'<a href="'.$this->context->link->getAdminLink('AdminSupplyOrders').'&id_supply_order='.$supply_order->id.'&csv_order_details"> CSV </a>'.'</p>';      
+                          <a data-toggle="popover" tabindex="0" role="button" rel="popover" class="btn btn-default po-doc-popover"><i class="icon-file-text"></i></a>
+                          <div class="po-doc-popover-content" style="display: none">
+                          <p>Tải <strong>phiếu mua hàng</strong>: '.'<a href="'.$this->context->link->getAdminLink('AdminPdf').'&submitAction=generateSupplyOrderFormPDF&id_supply_order='.$supply_order->id.'">PDF</a>, '.'<a href="'.$this->context->link->getAdminLink('AdminSupplyOrders').'&id_supply_order='.$supply_order->id.'&csv_order_details"> CSV </a>'.'</p>';      
                         
             $content .= '<p>Tải <strong>phiếu nhận hàng</strong> và <strong>phiếu nhập kho</strong>:</p>
                                     <table class="table table-condensed">
@@ -573,21 +568,23 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                                             </tr>
                                         </thead>
                                         <tbody>';
+
             foreach ($supply_order_vouchers as $supply_order_voucher) { 
                             
-                $content .= '<tr><td>'.$this->l('VO0000').$supply_order_voucher->id.'</td>';
-                $content .= ' <td>'.$supply_order_voucher->date_add.'</td>';
-				$content .= '<td><a href="'.$this->context->link->getAdminLink('AdminPdf')
-                                         .'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'&grn=true">PDF</a> </td>';
-                $content .= ' <td><a href="'.$this->context->link->getAdminLink('AdminPdf')
-                                        .'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'">PDF</a></td>';
+                        $content .= '<tr><td>'.$this->l('VO0000').$supply_order_voucher->id.'</td>';
+                        $content .= ' <td>'.$supply_order_voucher->date_add.'</td>';
+					    $content .= '<td><a href="'.$this->context->link->getAdminLink('AdminPdf').'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'&grn=true">PDF</a> </td>';
+                        $content .= ' <td><a href="'.$this->context->link->getAdminLink('AdminPdf').'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'">PDF</a></td>';
+                           
             }
-            
+                         
             $content .= '</tbody></table></div>'; 
-            return $content;
+             
+             return $content;
+
         }
     }
-    
+   
 
     /*
     * module: supplyordervoucherpdf
@@ -596,17 +593,16 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     */
     public function printDocumentByAuditTrailLine($id_supply_order_voucher, $tr)
     {    
-
-        $content = '';
-        $supply_order_voucher = new SupplyOrderVoucher((int)$id_supply_order_voucher);
-        $supply_order = new SupplyOrder((int)$supply_order_voucher->id_supply_order);
+		$content = '';
+		$supply_order_voucher = new SupplyOrderVoucher((int)$id_supply_order_voucher);
+		$supply_order = new SupplyOrder((int)$supply_order_voucher->id_supply_order);
       
         if (!Validate::isLoadedObject($supply_order_voucher)) {
             return;
         }
-         
+
         if (!Validate::isLoadedObject($supply_order)) {
-            return;
+        return;
         }
 
         $supply_order_state = new SupplyOrderState($supply_order->id_supply_order_state);
@@ -616,12 +612,10 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
         }
 
         if ($supply_order_state->editable == false) {
-         
-            
             $content .= '<style>.bootstrap .popover{max-width:500px}</style>
-                                <a data-toggle="popover" tabindex="0" role="button" rel="popover" class="btn btn-default po-doc-popover"><i class="icon-file-text"></i></a>
-                                <div class="po-doc-popover-content" style="display: none">
-                                    <p>Tải <strong>phiếu mua hàng</strong>: '.'<a href="'.$this->context->link->getAdminLink('AdminPdf').'&submitAction=generateSupplyOrderFormPDF&id_supply_order='.$supply_order->id.'">PDF</a>, '.'<a href="'.$this->context->link->getAdminLink('AdminSupplyOrders').'&id_supply_order='.$supply_order->id.'&csv_order_details"> CSV </a>'.'</p>';      
+                         <a data-toggle="popover" tabindex="0" role="button" rel="popover" class="btn btn-default po-doc-popover"><i class="icon-file-text"></i></a>
+                         <div class="po-doc-popover-content" style="display: none">
+                         <p>Tải <strong>phiếu mua hàng</strong>: '.'<a href="'.$this->context->link->getAdminLink('AdminPdf').'&submitAction=generateSupplyOrderFormPDF&id_supply_order='.$supply_order->id.'">PDF</a>, '.'<a href="'.$this->context->link->getAdminLink('AdminSupplyOrders').'&id_supply_order='.$supply_order->id.'&csv_order_details"> CSV </a>'.'</p>';      
                         
             $content .= '<p>Tải <strong>phiếu nhận hàng</strong> và <strong>phiếu nhập kho</strong>:</p>
                                     <table class="table table-condensed">
@@ -637,14 +631,9 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                         
             $content .= '<tr><td>'.$this->l('VO0000').$supply_order_voucher->id.'</td>';
             $content .= ' <td>'.$supply_order_voucher->date_add.'</td>';
-            $content .= '<td><a href="'.$this->context->link->getAdminLink('AdminPdf')
-                                         .'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'&grn=true">PDF</a> </td>';
-            $content .= ' <td><a href="'.$this->context->link->getAdminLink('AdminPdf')
-                                        .'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'">PDF</a></td>';
-                           
-                      
+            $content .= '<td><a href="'.$this->context->link->getAdminLink('AdminPdf').'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'&grn=true">PDF</a> </td>';
+            $content .= ' <td><a href="'.$this->context->link->getAdminLink('AdminPdf').'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='
             $content .= '</tbody></table></div>'; 
-             
             return $content;
         }
     }
@@ -665,47 +654,45 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
         if (!Validate::isLoadedObject($supply_order_voucher)) {
             return;
         }
-            
+
         if (!Validate::isLoadedObject($supply_order)) {
-           return;
+            return;
         }
 
         $supply_order_state = new SupplyOrderState($supply_order->id_supply_order_state);
-         
+
         if (!Validate::isLoadedObject($supply_order_state)) {
             return;
         }
 
         if ($supply_order_state->editable == false) {
-         
-            $content .= '<style>.bootstrap .popover{max-width:500px}</style>
-                                <a data-toggle="popover" tabindex="0" role="button" rel="popover" class="btn btn-default po-doc-popover"><i class="icon-file-text"></i></a>
-                                <div class="po-doc-popover-content" style="display: none">'
-                                    ;      
+        $content .= '<style>.bootstrap .popover{max-width:500px}</style>
+                    <a data-toggle="popover" tabindex="0" role="button" rel="popover" class="btn btn-default po-doc-popover"><i class="icon-file-text"></i></a>
+                    <div class="po-doc-popover-content" style="display: none">';      
                         
-            $content .= '
-                                    <table class="table table-condensed">
-                                        <thead>
-                                            <tr>
-                                                <th>UPC</th>
-                                                <th>REFERENCE</th>
-                                                <th>Tên Hàng</th>
-                                                <th>Số Lượng Nhập</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>';
-            foreach ($supply_order_voucher_products as $supply_order_voucher_product) {
-                            $content .= '<tr><td>'.$supply_order_voucher_product['upc'].'</td>';
-                            $content .= ' <td>'.$supply_order_voucher_product['reference'].'</td>';
-                            $content .= ' <td>'.$supply_order_voucher_product['name'].'</td>';
-                            $content .= ' <td>'.$supply_order_voucher_product['quantity'].'</td>';
-                            $content .= ' </tr>';   
-            }
-                            $content .= '</tbody></table></div>'; 
-             
-     
-            return $content;
-            }
+        $content .= '
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>UPC</th>
+                                <th>REFERENCE</th>
+                                <th>Tên Hàng</th>
+                                <th>Số Lượng Nhập</th>
+                            </tr>
+                        </thead>
+                    <tbody>';
+
+        foreach ($supply_order_voucher_products as $supply_order_voucher_product) {
+            $content .= '<tr><td>'.$supply_order_voucher_product['upc'].'</td>';
+            $content .= ' <td>'.$supply_order_voucher_product['reference'].'</td>';
+            $content .= ' <td>'.$supply_order_voucher_product['name'].'</td>';
+            $content .= ' <td>'.$supply_order_voucher_product['quantity'].'</td>';
+            $content .= ' </tr>';   
+        }
+        
+        $content .= '</tbody></table></div>'; 
+
+        return $content;
+        }
     }
 }
-?>

@@ -28,7 +28,6 @@
 		<td style="text-align: left; font-size: 6pt; color: #444; width:87%;">
 			
 {l s='Shop Address:'   mod='supplyordervoucherpdf'}{$shop_address|escape:'html':'UTF-8'}<br />
-
 			{if !empty($shop_phone) OR !empty($shop_fax)}
 				{l s='For more assistance, contact Support:' pdf='true'   mod='supplyordervoucherpdf'}<br />
 				{if !empty($shop_phone)}

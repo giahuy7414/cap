@@ -28,9 +28,7 @@
  */
 class SupplyOrder extends SupplyOrderCore
 {
- 
-  
-    public function getSupplyOrderVoucherCollection()
+	public function getSupplyOrderVoucherCollection()
     {
         $details = new PrestaShopCollection('SupplyOrderVoucher');
         $details->where('id_supply_order', '=', $this->id);
@@ -38,8 +36,5 @@ class SupplyOrder extends SupplyOrderCore
         return $details;
     }
    
-           
-                
-    
-   
+                        
 }

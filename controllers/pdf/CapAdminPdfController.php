@@ -1,47 +1,10 @@
 <?php
- /*include_once(_PS_MODULE_DIR_.'supplyordervoucherpdf'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'pdf'.DIRECTORY_SEPARATOR.'HTMLTemplateSupplyOrderVoucher.php');
- include_once(_PS_MODULE_DIR_.'supplyordervoucherpdf'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'SupplyOrderVoucher.php');*/
+
 class AdminPdfController extends AdminPdfControllerCore
 {
-    /*
-    * module: supplyordervoucherpdf
-    * date: 2016-11-06 01:50:54
-    * version: 1.0
-    */
-	
-    /*
-    * module: supplyordervoucherpdf
-    * date: 2016-11-06 01:50:54
-    * version: 1.0
-    */
-	
-    /*
-    * module: supplyordervoucherpdf
-    * date: 2016-11-06 01:50:54
-    * version: 1.0
-    */
-	
-    /*
-    * module: supplyordervoucherpdf
-    * date: 2016-11-06 01:50:54
-    * version: 1.0
-    */
-	
-    /*
-    * module: supplyordervoucherpdf
-    * date: 2016-11-06 01:50:54
-    * version: 1.0
-    */
-    /*
-    * module: supplyordervoucherpdf
-    * date: 2016-11-07 08:52:13
-    * version: 1.0
-    */
-    /*
-    * module: supplyordervoucherpdf
-    * date: 2016-11-07 22:30:18
-    * version: 1.0
-    */
+    
+    //Function to get Supply Order Voucher Template
+
     public function processGenerateSupplyOrderVoucherPDF()
     {
 
@@ -58,4 +21,3 @@ class AdminPdfController extends AdminPdfControllerCore
     }
 	
 }
-?>

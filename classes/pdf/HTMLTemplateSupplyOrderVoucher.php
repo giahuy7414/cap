@@ -35,16 +35,9 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
     public $address_warehouse;
     public $address_supplier;
     public $context;
+    //the grn variable will check the GET variable in header in order to check user want to print voucher of good receipt note 
 	public $grn=false;
 	public $supply_order_voucher_products;
-
-    /**
-     * @param SupplyOrder $supply_order
-     * @param $smarty
-     * @throws PrestaShopException
-     */
-
-
 
     public function __construct(SupplyOrderVoucher $supply_order_voucher, $smarty)
     {  
@@ -57,14 +50,13 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
         $this->address_supplier = new Address(Address::getAddressIdBySupplierId((int)$this->supply_order->id_supplier));
         $this->supply_order_voucher_products = $this->supply_order_voucher->getEntriesCollectionVoucher();
 
-        // header informations
-       // $this->date = Tools::displayDate($supply_order->date_add);
         $this->title = $this->l('Supply Order Voucher'); //XXX
-		if (Tools::getValue('grn')==true)
-		{
+		if (Tools::getValue('grn')==true){
+
 			$this->title = $this->l('Good Receive Note');
 			$this->grn = true;
 		}
+
         $this->shop = new Shop((int)$this->order->id_shop);
     }
 
@@ -72,6 +64,7 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
 /**
      * @see HTMLTemplate::getContent()
      */
+
     public function getContent()
     {  
   		
@@ -86,15 +79,9 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
             'supply_order_voucher_products' => $this->supply_order_voucher_products,
             'total_summary' => $total_summary,
             'currency' => $currency,
-        ));
+            ));
 
-     /*   $tpls = array(
-            'style_tab' => $this->smarty->fetch($this->getTemplate('invoice.style-tab')),
-            'addresses_tab' => $this->smarty->fetch($this->getTemplate('supply-order-voucher.addresses-tab')),
-            'product_tab' => $this->smarty->fetch($this->getTemplate('supply-order-voucher.product-tab')),
-        );
-     */
-          $tpls = array(
+        $tpls = array(
             'style_tab' => $this->smarty->fetch($this->getTemplate('invoice.style-tab')),
             'addresses_tab' => $this->smarty->fetch($this->getTemplate('supply-order-voucher.addresses-tab')),
             'product_tab' => $this->smarty->fetch($this->getTemplate('supply-order-voucher.product-tab')),
@@ -102,14 +89,14 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
         );
           
         $this->smarty->assign($tpls);
-
         return $this->smarty->fetch($this->getTemplate('supply-order-voucher'));
     }
 
 
-
-protected function getTotalVoucherSummary()
-    {	$total_ti = 0;
+    //get the summary of supply orde voucher 
+    protected function getTotalVoucherSummary()
+    {	
+        $total_ti = 0;
     	$total_te = 0;
     	$total_tax = 0;
     	$total_discount = 0;
@@ -120,11 +107,9 @@ protected function getTotalVoucherSummary()
     		$total_ti += $value['total_item_price'];
     		$total_discount += $value['unit_price_te']*$value['quantity'] - $value['unit_price_dis_te']*$value['quantity'];
     	}
+
     	$total_tax = $total_ti - $total_te;
-
     	$total_information = array('total_te' => $total_te,'total_ti' => $total_ti,'total_tax' => $total_tax,'total_discount' => $total_discount );
-
-
         return $total_information;
     }
 
@@ -149,6 +134,7 @@ protected function getTotalVoucherSummary()
         return $logo;
     }
 
+
     /**
      * @see HTMLTemplate::getBulkFilename()
      */
@@ -156,6 +142,7 @@ protected function getTotalVoucherSummary()
     {
         return 'supply_order_voucher.pdf';
     }
+
 
     /**
      * @see HTMLTemplate::getFileName()
@@ -172,15 +159,7 @@ protected function getTotalVoucherSummary()
 
     }
 
-    /**
-     * Get order taxes summary
-     *
-     * @return array|false|mysqli_result|null|PDOStatement|resource
-     * @throws PrestaShopDatabaseException
-     */
-
    
-
     /**
      * @see HTMLTemplate::getHeader()
      */
@@ -190,8 +169,6 @@ protected function getTotalVoucherSummary()
         $shop_name = Configuration::get('PS_SHOP_NAME');
         $path_logo = $this->getLogo();
         $width = $height = 0;
-    
-        
 
         if (!empty($path_logo)) {
             list($width, $height) = getimagesize($path_logo);
@@ -214,6 +191,7 @@ protected function getTotalVoucherSummary()
 
         return $this->smarty->fetch($this->getTemplate('supply-order-voucher-header'));
     }
+
 
     /**
      * @see HTMLTemplate::getFooter()
@@ -244,13 +222,13 @@ protected function getTotalVoucherSummary()
      *
      * @param array|PrestaShopCollection $collection
      */
-    protected function roundSupplyOrderVoucher(&$collection)
+   /* protected function roundSupplyOrderVoucher(&$collection)
     {
         foreach ($collection as $supply_order_detail) {
-            /** @var SupplyOrderDetail $supply_order_detail */
+            // @var SupplyOrderDetail $supply_order_detail 
             $supply_order_voucher->price_te = Tools::ps_round($supply_order_detail->price_te, 2);
         }
     }
-
+*/
   
 }

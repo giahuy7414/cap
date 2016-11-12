@@ -3,13 +3,9 @@
 
 class CapPDF extends PDFCore
 {
-	/*
-    * module: supplyordervoucherpdf
-    * date: 2016-11-06 01:50:53
-    * version: 1.0
-    */
+	//Add new constant to PDFCore to indentify the correct HTMLTemplate control to generate the supply order voucher pdf file 
     
-    const TEMPLATE_SUPPLY_ORDER_VOUCHER = 'SupplyOrderVoucher';
+	const TEMPLATE_SUPPLY_ORDER_VOUCHER = 'SupplyOrderVoucher';
 	
 }
-?>
+

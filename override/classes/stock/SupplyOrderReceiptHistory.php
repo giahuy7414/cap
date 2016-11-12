@@ -24,24 +24,19 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-/**
- * History of receipts
- * @since 1.5.0
- */
+//add id_supply_order_voucher column into defintion 
+
 class SupplyOrderReceiptHistory extends SupplyOrderReceiptHistoryCore
 {
 
     /**
-     * @var atring Detail of the Voucher (1 voucher many product to receipt)
+     * @var atring Detail of the Voucher (1 voucher many product in history receipt)
      */
     public $id_supply_order_voucher;
-
-  
 
     /**
      * @see ObjectModel::$definition
      */
     public static $definition = array( 'table' => 'supply_order_receipt_history', 'primary' => 'id_supply_order_receipt_history', 'fields' => array( 'id_supply_order_detail' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'required' => true), 'id_supply_order_voucher' => array('type' => self::TYPE_STRING, 'required' => true), 'id_supply_order_state' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'required' => true), 'id_employee' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'required' => true), 'employee_firstname' => array('type' => self::TYPE_STRING, 'validate' => 'isName'), 'employee_lastname' => array('type' => self::TYPE_STRING, 'validate' => 'isName'), 'quantity' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt', 'required' => true), 'date_add' => array('type' => self::TYPE_DATE, 'validate' => 'isDate'), ), );
-
    
 }
