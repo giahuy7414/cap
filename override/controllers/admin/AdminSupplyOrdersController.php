@@ -223,9 +223,10 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                 CONCAT(a.`employee_lastname`, \' \', a.`employee_firstname`) as history_employee,
                 sosl.`name` as history_state_name,
                 sos.`color` as color,
-                concat(\'VO0000\',.sov.`id_supply_order_voucher`) as id_voucher,
+                concat(\''.$this->l('VOU ID Prefix').'\',.sov.`id_supply_order_voucher`) as id_voucher,
                 sov.`id_supply_order_voucher` as id_print_document,
                 sov.`id_supply_order_voucher` as id_details_receipt_quantity';
+                
             $this->_join = '
                 LEFT JOIN `'._DB_PREFIX_.'supply_order_state` sos ON (a.`id_state` = sos.`id_supply_order_state`)
                 LEFT JOIN `'._DB_PREFIX_.'supply_order_state_lang` sosl ON
