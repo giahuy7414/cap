@@ -24,10 +24,11 @@
 *}
 {l s='Products received:' pdf='true'    mod='supplyordervoucherpdf'}<br/>
 
-<table class="product small" align="left" width="100%" cellpadding="4" cellspacing="0">
+<table class="product small" align="left" width="84%" cellpadding="4" cellspacing="0">
 
 	<thead>
 	<tr>
+		<th class="product header small" width="14%">{l s='No.'   mod='supplyordervoucherpdf'}</th>
 		<th class="product header small" width="14%">{l s='Name'   mod='supplyordervoucherpdf'}</th>
 		<th class="product header small" width="10%">{l s='UPC'   mod='supplyordervoucherpdf'}</th>
 		<th class="product header small" width="10%">{l s='REF'   mod='supplyordervoucherpdf'}</th>
@@ -48,6 +49,9 @@
 			{cycle values=["color_line_even", "color_line_odd"] assign=bgcolor_class}
 			<tr class="product {$bgcolor_class}">
 
+			    <td class="product center">
+				{$supply_order_voucher_product.NO}
+				</td>
 				<td class="product center">
 				{$supply_order_voucher_product.name}
 				</td>

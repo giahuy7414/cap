@@ -81,7 +81,8 @@ class SupplyOrderVoucher extends ObjectModel
 
     //Function to get all supply order receipt conresponding with the supply order voucher
     public function getEntriesCollectionVoucher()
-    {
+    {	
+    	$supply_order_voucher_products;
         $query = new DbQuery();
         $query->select('id_employee as empid, concat(employee_lastname,\' \',employee_firstname) as empname,date_add,name, upc, reference,quantity, quantity_expected,
             case (unit_price_te mod 1 > 0) 
@@ -98,6 +99,7 @@ class SupplyOrderVoucher extends ObjectModel
             when true then round(price_with_discount_te/quantity_expected, 3)
             else round(price_with_discount_te/quantity_expected,0)
             end as unit_price_dis_te,
+
             concat(round(tax_rate),\'%\') as tax_rate,
 
             case ((price_ti/quantity_expected) mod 1 > 0) 
@@ -114,10 +116,68 @@ class SupplyOrderVoucher extends ObjectModel
         $query->from('supply_order_receipt_history', 'a');
         $query->join('INNER JOIN '._DB_PREFIX_.'supply_order_detail b ON (`a`.id_supply_order_detail=`b`.id_supply_order_detail)');
         $query->where('a.`id_supply_order_voucher` = '.(int)$this->id);
-           
+        
+
         $supply_order_voucher_products = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
+
+        //Add No. Number to collection of supply order voucher product by getting the key of array and inject it into sub array
+        foreach ($supply_order_voucher_products as $key => $supply_order_voucher_product) {
+        	$supply_order_voucher_products[$key]['NO'] = $key + 1;
+        }
+       
         return $supply_order_voucher_products;
     }
+
+
+    //Function to include thousand separator
+    //if ArrayinArrayFlag set to true mean ObjectsArray contrain sub array and need to loop into each sub array
+    public function PriceDecimalSeparator(Array $ObjectsArray,bool $ArrayinArrayFlag)
+    {	
+    	// get the argument after the first default 2 argument
+    	$Conditions = func_get_args();
+    	unset($Conditions[0]);
+    	unset($Conditions[1]);
+    	
+    	if ($ArrayinArrayFlag){
+            
+            foreach ($ObjectsArray as $key => $ObjectArray) {
+    		
+                $ObjectsArray[$key] = $this->PriceDecimalSeparatorHelper($ObjectArray,$Conditions);
+
+    	    }
+
+    	} else {
+
+    		$ObjectsArray = $this->PriceDecimalSeparatorHelper($ObjectsArray,$Conditions);
+    	}
+    	
+
+    	return $ObjectsArray;
+    }
+
+
+    //helper function for PriceDecimalSeparator, add ',' each thousand
+    public function PriceDecimalSeparatorHelper($ObjectArray,$Conditions)
+    {		
+
+    		foreach ($ObjectArray as $key => $value) {
+    			foreach ($Conditions as $Condition) {
+	    	        if ($key == $Condition) {
+	    	        
+	    	           if ($value % 1 > 0) {
+	    	            $ObjectArray[$key]  = number_format($value,3);
+	    	           } else {
+	    	            $ObjectArray[$key]  = number_format($value);
+	    	           }
+
+	    		    }
+	    		}	
+
+    		}
+
+        return $ObjectArray;
+    }
+
 
 
 }

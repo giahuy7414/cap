@@ -68,7 +68,7 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
     public function getContent()
     {  
   		
-        $total_summary = $this->getTotalVoucherSummary();    
+        $total_summary = $this->supply_order_voucher->PriceDecimalSeparator($this->getTotalVoucherSummary(),false,'total_te','total_ti','total_tax','total_discount');    
         $currency = new Currency((int)$this->supply_order->id_currency);
 
         $this->smarty->assign(array(
@@ -76,7 +76,7 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
             'address_warehouse' => $this->address_warehouse,
             'address_supplier' => $this->address_supplier,
             'supply_order' => $this->supply_order,
-            'supply_order_voucher_products' => $this->supply_order_voucher_products,
+            'supply_order_voucher_products' => $this->supply_order_voucher->PriceDecimalSeparator($this->supply_order_voucher_products,true,'unit_price_te','unit_price_dis_ti','unit_price_dis_te','total_item_price'),
             'total_summary' => $total_summary,
             'currency' => $currency,
             ));
