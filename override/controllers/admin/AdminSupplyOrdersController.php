@@ -251,8 +251,9 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     * version: 1.0
     */
     public function renderForm()
-    {   $DefaultSOReference = $this->l('ID SO Placeholder').(string)((int)$this->getCurrentSupplyOrderID()+1);
-        
+    {   
+        //get next auto number of supply order id as use as supply order referrence
+        $DefaultSOReference = $this->l('ID SO Placeholder').(string)$this->getCurrentSupplyOrderID();
         if (Tools::isSubmit('addsupply_order') ||
             Tools::isSubmit('updatesupply_order') ||
             Tools::isSubmit('submitAddsupply_order') ||
