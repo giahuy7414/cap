@@ -32,6 +32,7 @@ class SupplyOrder extends SupplyOrderCore
     {
         $details = new PrestaShopCollection('SupplyOrderVoucher');
         $details->where('id_supply_order', '=', $this->id);
+        $details->orderBy('id_supply_order_voucher', 'desc');
         $details->getResults();
         return $details;
     }

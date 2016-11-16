@@ -42,7 +42,7 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
     public function __construct(SupplyOrderVoucher $supply_order_voucher, $smarty)
     {  
         $this->supply_order_voucher = $supply_order_voucher;
-        $this->supply_order = new SupplyOrder((int)$this->supply_order_voucher->id);
+        $this->supply_order = new SupplyOrder((int)$this->supply_order_voucher->id_supply_order);
         $this->smarty = $smarty;
         $this->context = Context::getContext();
         $this->warehouse = new Warehouse((int)$this->supply_order->id_warehouse);

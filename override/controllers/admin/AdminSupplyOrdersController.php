@@ -15,8 +15,8 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     */
     public function renderList()
     {
-    	$this->fields_list = array(
-    		 
+        $this->fields_list = array(
+             
            'reference' => array(
                 'title' => $this->l('Reference'),
                 'havingFilter' => true
@@ -71,26 +71,26 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
         $this->tpl_list_vars['current_warehouse'] = $this->getCurrentWarehouse();
         $this->tpl_list_vars['filter_status'] = $this->getFilterStatus();
         $this->_select = '
-			s.name AS supplier,
-			w.name AS warehouse,
-			stl.name AS state,
-			st.delivery_note,
-			st.editable,
-			st.enclosed,
-			st.receipt_state,
-			st.pending_receipt,
-			st.color AS color,
-			a.id_supply_order as id_export,
-			a.id_supply_order as id_print_document';
+            s.name AS supplier,
+            w.name AS warehouse,
+            stl.name AS state,
+            st.delivery_note,
+            st.editable,
+            st.enclosed,
+            st.receipt_state,
+            st.pending_receipt,
+            st.color AS color,
+            a.id_supply_order as id_export,
+            a.id_supply_order as id_print_document';
         $this->_join = '
-			LEFT JOIN `'._DB_PREFIX_.'supply_order_state_lang` stl ON
-			(
-				a.id_supply_order_state = stl.id_supply_order_state
-				AND stl.id_lang = '.(int)$this->context->language->id.'
-			)
-			LEFT JOIN `'._DB_PREFIX_.'supply_order_state` st ON a.id_supply_order_state = st.id_supply_order_state
-			LEFT JOIN `'._DB_PREFIX_.'supplier` s ON a.id_supplier = s.id_supplier
-			LEFT JOIN `'._DB_PREFIX_.'warehouse` w ON (w.id_warehouse = a.id_warehouse)';
+            LEFT JOIN `'._DB_PREFIX_.'supply_order_state_lang` stl ON
+            (
+                a.id_supply_order_state = stl.id_supply_order_state
+                AND stl.id_lang = '.(int)$this->context->language->id.'
+            )
+            LEFT JOIN `'._DB_PREFIX_.'supply_order_state` st ON a.id_supply_order_state = st.id_supply_order_state
+            LEFT JOIN `'._DB_PREFIX_.'supplier` s ON a.id_supplier = s.id_supplier
+            LEFT JOIN `'._DB_PREFIX_.'warehouse` w ON (w.id_warehouse = a.id_warehouse)';
         $this->_where = ' AND a.is_template = 0';
         if ($this->getCurrentWarehouse() != -1) {
             $this->_where .= ' AND a.id_warehouse = '.$this->getCurrentWarehouse();
@@ -198,8 +198,8 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                     'color' => 'color',
                     'havingFilter' => true
                 ),
-                'id_voucher' => array(
-                    'title' => $this->l('ID VOUCHER'),
+                'id_grn' => array(
+                    'title' => $this->l('GRN Placeholder'),
                     'align' => 'left',
                     'havingFilter' => true
                 ),
@@ -223,7 +223,7 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                 CONCAT(a.`employee_lastname`, \' \', a.`employee_firstname`) as history_employee,
                 sosl.`name` as history_state_name,
                 sos.`color` as color,
-                concat(\''.$this->l('VOU ID Prefix').'\',.sov.`id_supply_order_voucher`) as id_voucher,
+                concat(\''.$this->l('ID GRN Placeholder').'\',.sov.`id_supply_order_voucher`) as id_grn,
                 sov.`id_supply_order_voucher` as id_print_document,
                 sov.`id_supply_order_voucher` as id_details_receipt_quantity';
                 
@@ -251,8 +251,8 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     * version: 1.0
     */
     public function renderForm()
-    {	$DefaultSOReference = $this->l('SO PREFIX').(string)((int)$this->getCurrentSupplyOrderID()+1);
-    	
+    {   $DefaultSOReference = $this->l('ID SO Placeholder').(string)((int)$this->getCurrentSupplyOrderID()+1);
+        
         if (Tools::isSubmit('addsupply_order') ||
             Tools::isSubmit('updatesupply_order') ||
             Tools::isSubmit('submitAddsupply_order') ||
@@ -422,8 +422,8 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     */
     protected function getCurrentSupplyOrderID()
     {
-    	$sql = 'SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \''._DB_NAME_.'\' AND TABLE_NAME = \''._DB_PREFIX_.'supply_order\'';
-    	return Db::getInstance()->getValue($sql);
+        $sql = 'SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \''._DB_NAME_.'\' AND TABLE_NAME = \''._DB_PREFIX_.'supply_order\'';
+        return Db::getInstance()->getValue($sql);
     }
       
  
@@ -498,13 +498,13 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                     $res = Warehouse::setProductlocation($supply_order_detail->id_product,
                         $supply_order_detail->id_product_attribute, $warehouse->id, $location ? $location : '');
                     if ($res) {
-                    	if($bFirstTime==true)
-                    	{;
-                    	$supply_order_voucher->add();
-        				$id_current_supply_order_voucher = $supply_order_voucher->id; 
-        				$bFirstTime = false; 
-                    	}
-                    	$supplier_receipt_history->id_supply_order_voucher = (int)$id_current_supply_order_voucher;
+                        if($bFirstTime==true)
+                        {;
+                        $supply_order_voucher->add();
+                        $id_current_supply_order_voucher = $supply_order_voucher->id; 
+                        $bFirstTime = false; 
+                        }
+                        $supplier_receipt_history->id_supply_order_voucher = (int)$id_current_supply_order_voucher;
                         $supplier_receipt_history->add();
                         $supply_order_detail->save();
                        
@@ -515,14 +515,14 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                 }
             }
         }
-	    
+        
         $supply_order->id_supply_order_state = ($supply_order->id_supply_order_state == 4 && $supply_order->getAllPendingQuantity() > 0) ? 4 : 5;
         $supply_order->save();
         $id_current_supply_order_history = Db::getInstance()->getValue('select max(id_supply_order_history) from '._DB_PREFIX_.'supply_order_history where id_supply_order = '.$supply_order->id);
         if ($bFirstTime == false)
         {
-		        $supply_order_voucher->id_supply_order_history = $id_current_supply_order_history;
-		        $supply_order_voucher->save();
+                $supply_order_voucher->id_supply_order_history = $id_current_supply_order_history;
+                $supply_order_voucher->save();
         }
         if (!count($this->errors)) {
             $token = Tools::getValue('token') ? Tools::getValue('token') : $this->token;
@@ -576,9 +576,9 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                                         <tbody>';
             foreach ($supply_order_vouchers as $supply_order_voucher) { 
                             
-                $content .= '<tr><td>'.$this->l('VO0000').$supply_order_voucher->id.'</td>';
+                $content .= '<tr><td>'.$this->l('ID GRN Placeholder').$supply_order_voucher->id.'</td>';
                 $content .= ' <td>'.$supply_order_voucher->date_add.'</td>';
-				$content .= '<td><a href="'.$this->context->link->getAdminLink('AdminPdf')
+                $content .= '<td><a href="'.$this->context->link->getAdminLink('AdminPdf')
                                          .'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'&grn=true">PDF</a> </td>';
                 $content .= ' <td><a href="'.$this->context->link->getAdminLink('AdminPdf')
                                         .'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'">PDF</a></td>';
@@ -636,7 +636,7 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                                         </thead>
                                         <tbody>';
                         
-            $content .= '<tr><td>'.$this->l('VO0000').$supply_order_voucher->id.'</td>';
+            $content .= '<tr><td>'.$this->l('ID GRN Placeholder').$supply_order_voucher->id.'</td>';
             $content .= ' <td>'.$supply_order_voucher->date_add.'</td>';
             $content .= '<td><a href="'.$this->context->link->getAdminLink('AdminPdf')
                                          .'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'&grn=true">PDF</a> </td>';
@@ -688,16 +688,18 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                                     <table class="table table-condensed">
                                         <thead>
                                             <tr>
+                                                <th>Mã tham thiếu</th>
+                                                <th>EAN-13</th>
                                                 <th>UPC</th>
-                                                <th>REFERENCE</th>
-                                                <th>Tên Hàng</th>
-                                                <th>Số Lượng Nhập</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Số lượng</th>
                                             </tr>
                                         </thead>
                                         <tbody>';
             foreach ($supply_order_voucher_products as $supply_order_voucher_product) {
-                            $content .= '<tr><td>'.$supply_order_voucher_product['upc'].'</td>';
                             $content .= ' <td>'.$supply_order_voucher_product['reference'].'</td>';
+                            $content .= ' <td>'.$supply_order_voucher_product['ean13'].'</td>';
+                            $content .= '<td>'.$supply_order_voucher_product['upc'].'</td>';
                             $content .= ' <td>'.$supply_order_voucher_product['name'].'</td>';
                             $content .= ' <td>'.$supply_order_voucher_product['quantity'].'</td>';
                             $content .= ' </tr>';   

@@ -84,7 +84,7 @@ class SupplyOrderVoucher extends ObjectModel
     {	
     	$supply_order_voucher_products;
         $query = new DbQuery();
-        $query->select('id_employee as empid, concat(employee_lastname,\' \',employee_firstname) as empname,date_add,name, upc, reference,quantity, quantity_expected,
+        $query->select('id_employee as empid, concat(employee_lastname,\' \',employee_firstname) as empname,date_add,name,ean13, upc, reference,quantity, quantity_expected,
             case (unit_price_te mod 1 > 0) 
             when true then round(unit_price_te, 3)
             else round(unit_price_te, 0)  
