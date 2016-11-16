@@ -50,10 +50,10 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
         $this->address_supplier = new Address(Address::getAddressIdBySupplierId((int)$this->supply_order->id_supplier));
         $this->supply_order_voucher_products = $this->supply_order_voucher->getEntriesCollectionVoucher();
 
-        $this->title = $this->l('Supply Order Voucher'); //XXX
+        $this->title = $this->l('Phiếu nhập kho'); //XXX
 		if (Tools::getValue('grn')==true){
 
-			$this->title = $this->l('Good Receive Note');
+			$this->title = $this->l('Phiếu nhận hàng');
 			$this->grn = true;
 		}
 

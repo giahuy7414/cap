@@ -22,36 +22,36 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-{l s='Summary:' pdf='true'}<br/>
+{l s='Summary:'  }<br/>
 
 <table id="total-tab" width="100%">
 
 	<tr class="bold">
-		<td class="grey" width="70%">{l s='Total TE' pdf='true'   mod='supplyordervoucherpdf'} <br /> {l s='(Before discount)' pdf='true'   mod='supplyordervoucherpdf'}</td>
+		<td class="grey" width="70%">{l s='Total TE'     mod='supplyordervoucherpdf'} <br /> {l s='(Before discount)'     mod='supplyordervoucherpdf'}</td>
 		<td class="white" width="30%">
 			{$currency->prefix} {$total_summary.total_te} {$currency->suffix}
 		</td>
 	</tr>
 	<tr class="bold">
-		<td class="grey" width="70%">{l s='Total Item Discount' pdf='true'   mod='supplyordervoucherpdf'}</td>
+		<td class="grey" width="70%">{l s='Total Item Discount'     mod='supplyordervoucherpdf'}</td>
 		<td class="white" width="30%">
 			{$currency->prefix} {$total_summary.total_discount} {$currency->suffix}
 		</td>
 	</tr>
 	<tr class="bold">
-		<td class="grey" width="70%">{l s='Total Tax' pdf='true'   mod='supplyordervoucherpdf'} <br /> {l s='(After discount)' pdf='true'   mod='supplyordervoucherpdf'}</td>
+		<td class="grey" width="70%">{l s='Total Tax'     mod='supplyordervoucherpdf'} <br /> {l s='(After discount)'     mod='supplyordervoucherpdf'}</td>
 		<td class="white" width="30%">
 			{$currency->prefix} {$total_summary.total_tax} {$currency->suffix}
 		</td>
 	</tr>
 	<tr class="bold">
-		<td class="grey" width="70%">{l s='Total TI' pdf='true'   mod='supplyordervoucherpdf'}</td>
+		<td class="grey" width="70%">{l s='Total TI'     mod='supplyordervoucherpdf'}</td>
 		<td class="white" width="30%">
 			{$currency->prefix} {$total_summary.total_ti} {$currency->suffix}
 		</td>
 	</tr>
 	<tr class="bold">
-		<td class="grey" width="70%">{l s='Total Voucher Value' pdf='true'   mod='supplyordervoucherpdf'}</td>
+		<td class="grey" width="70%">{l s='Total Voucher Value'     mod='supplyordervoucherpdf'}</td>
 		<td class="white" width="30%">
 			{$currency->prefix} {$total_summary.total_ti}  {$currency->suffix}
 		</td>

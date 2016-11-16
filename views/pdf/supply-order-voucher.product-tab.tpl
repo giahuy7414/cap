@@ -22,7 +22,7 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-{l s='Products received:' pdf='true'    mod='supplyordervoucherpdf'}<br/>
+{l s='Products received:'      mod='supplyordervoucherpdf'}<br/>
 
 <table class="product small" align="left" width="84%" cellpadding="4" cellspacing="0">
 

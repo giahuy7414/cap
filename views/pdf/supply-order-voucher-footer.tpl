@@ -29,13 +29,13 @@
 			
 {l s='Shop Address:'   mod='supplyordervoucherpdf'}{$shop_address|escape:'html':'UTF-8'}<br />
 			{if !empty($shop_phone) OR !empty($shop_fax)}
-				{l s='For more assistance, contact Support:' pdf='true'   mod='supplyordervoucherpdf'}<br />
+				{l s='For more assistance, contact Support:'     mod='supplyordervoucherpdf'}<br />
 				{if !empty($shop_phone)}
-					{l s='Tel: %s' sprintf=[$shop_phone|escape:'html':'UTF-8'] pdf='true'   mod='supplyordervoucherpdf'}
+					{l s='Tel: %s' sprintf=[$shop_phone|escape:'html':'UTF-8']     mod='supplyordervoucherpdf'}
 				{/if}
 
 				{if !empty($shop_fax)}
-					{l s='Fax: %s' sprintf=[$shop_fax|escape:'html':'UTF-8'] pdf='true'   mod='supplyordervoucherpdf'}
+					{l s='Fax: %s' sprintf=[$shop_fax|escape:'html':'UTF-8']     mod='supplyordervoucherpdf'}
 				{/if}
 				<br />
 			{/if}
