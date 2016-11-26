@@ -284,11 +284,12 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                 ),
                 'input' => array(
                     array(
-                        'type' => 'hidden',
+                        'type' => 'text',
                         'label' => $this->l('Reference'),
                         'name' => 'reference',
                         'required' => true,
-                        'default_value'=> $DefaultSOReference
+                        'default_value'=> $DefaultSOReference,
+                        'disabled' => 'disabled'
                     ),
                     array(
                         'type' => 'select',
