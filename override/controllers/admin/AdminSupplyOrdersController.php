@@ -223,7 +223,7 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                 CONCAT(a.`employee_lastname`, \' \', a.`employee_firstname`) as history_employee,
                 sosl.`name` as history_state_name,
                 sos.`color` as color,
-                concat(\''.$this->l('ID GRN Placeholder').'\',.sov.`id_supply_order_voucher`) as id_grn,
+                concat(\''.Configuration::get('GRNREF_Placeholder').'\',.sov.`id_supply_order_voucher`) as id_grn,
                 sov.`id_supply_order_voucher` as id_print_document,
                 sov.`id_supply_order_voucher` as id_details_receipt_quantity';
                 
@@ -253,7 +253,7 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     public function renderForm()
     {   
         //get next auto number of supply order id as use as supply order referrence
-        $DefaultSOReference = $this->l('ID SO Placeholder').(string)$this->getCurrentSupplyOrderID();
+        $DefaultSOReference = Configuration::get('POREF_Placeholder').(string)$this->getCurrentSupplyOrderID();
         if (Tools::isSubmit('addsupply_order') ||
             Tools::isSubmit('updatesupply_order') ||
             Tools::isSubmit('submitAddsupply_order') ||
@@ -577,7 +577,7 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                                         <tbody>';
             foreach ($supply_order_vouchers as $supply_order_voucher) { 
                             
-                $content .= '<tr><td>'.$this->l('ID GRN Placeholder').$supply_order_voucher->id.'</td>';
+                $content .= '<tr><td>'.Configuration::get('GRNREF_Placeholder').$supply_order_voucher->id.'</td>';
                 $content .= ' <td>'.$supply_order_voucher->date_add.'</td>';
                 $content .= '<td><a href="'.$this->context->link->getAdminLink('AdminPdf')
                                          .'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'&grn=true">PDF</a> </td>';
@@ -637,7 +637,7 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                                         </thead>
                                         <tbody>';
                         
-            $content .= '<tr><td>'.$this->l('ID GRN Placeholder').$supply_order_voucher->id.'</td>';
+            $content .= '<tr><td>'.Configuration::get('GRNREF_Placeholder').$supply_order_voucher->id.'</td>';
             $content .= ' <td>'.$supply_order_voucher->date_add.'</td>';
             $content .= '<td><a href="'.$this->context->link->getAdminLink('AdminPdf')
                                          .'&submitAction=generateSupplyOrderVoucherPDF&id_supply_order_voucher='.$supply_order_voucher->id.'&grn=true">PDF</a> </td>';

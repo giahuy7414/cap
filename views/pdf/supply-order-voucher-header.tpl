@@ -58,10 +58,10 @@
 			 <tr>
 			 {if $grn==true}
                     <td style="font-size: 13pt; color: #444; font-weight: bold;">
-			{l s='ID GRN Placeholder'   mod='supplyordervoucherpdf'}{$id_vou|escape:'html':'UTF-8'}</td>
+			{$grnref|escape:'html':'UTF-8'}{$id_vou|escape:'html':'UTF-8'}</td>
 			 {else}
 					<td style="font-size: 13pt; color: #444; font-weight: bold;">
-			{l s='ID Voucher Placeholder'   mod='supplyordervoucherpdf'}{$id_vou|escape:'html':'UTF-8'}</td>
+			{$vouref|escape:'html':'UTF-8'}{$id_vou|escape:'html':'UTF-8'}</td>
 			 {/if}
              </tr>
 

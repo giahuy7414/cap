@@ -181,6 +181,8 @@ class HTMLTemplateSupplyOrderVoucher extends HTMLTemplate
             'title' => $this->title,
             'reference' => $this->supply_order->reference,
             'id_vou' =>  $this->supply_order_voucher->id,
+            'grnref' =>  Configuration::get('GRNREF_Placeholder'),
+            'vouref' =>  Configuration::get('VOUREF_Placeholder'),
             'reference' => $this->supply_order->reference,
             'date' => $this->supply_order_voucher->date_add, //XXX
             'shop_name' => $shop_name,
