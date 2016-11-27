@@ -61,7 +61,7 @@ class SupplyOrderVoucherPDF extends Module
 
 		$sql_unistalldb = 'DROP TABLE `'._DB_PREFIX_.'supply_order_voucherr` ';
 
-		if (parent::uninstall() == false){
+		if (parent::uninstall() == false || !Configuration::deleteByName('POREF_Placeholder') || !Configuration::deleteByName('GRNREF_Placeholder')  || !Configuration::deleteByName('VOUREF_Placeholder')){
 			return false;
 		} else {
 
@@ -104,25 +104,24 @@ class SupplyOrderVoucherPDF extends Module
 	    // Init Fields form array
 	    $fields_form[0]['form'] = array(
 	        'legend' => array(
-	            'title' => $this->l('Settings'),
+	            'title' => $this->l('Configure Prefix for Purchase Order Documents'),
 	        ),
 	        'input' => array(
 	            array(
 	                'type' => 'text',
-	                'label' => $this->l('PO Reference'),
-
+	                'label' => $this->l('Purchase Order Prefix'),
 	                'name' => 'idporef',
 	                'required' => true
 	            ),
 	            array(
 	                'type' => 'text',
-	                'label' => $this->l('GRN Reference'),
+	                'label' => $this->l('Good Receive Note Prefix'),
 	                'name' => 'idgrnref',
 	                'required' => true
 	            ),
 	            array(
 	                'type' => 'text',
-	                'label' => $this->l('VOU Reference'),
+	                'label' => $this->l('Voucher Prefix'),
 	                'name' => 'idvouref',
 	                'required' => true
 	            )
