@@ -2,6 +2,11 @@
 class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
 {
    
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
+    * version: 1.0
+    */
     public function setMedia() {
         parent::setMedia();
         Tools::addJS(_PS_MODULE_DIR_.'supplyordervoucherpdf/js/Ha.js');
@@ -11,6 +16,11 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     /*
     * module: supplyordervoucherpdf
     * date: 2016-11-10 22:38:24
+    * version: 1.0
+    */
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
     * version: 1.0
     */
     public function renderList()
@@ -163,15 +173,22 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
         return $first_list.$second_list;
     }
     
-
     /*
     * module: supplyordervoucherpdf
     * date: 2016-11-10 22:38:24
     * version: 1.0
     */
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
+    * version: 1.0
+    */
     public function renderDetails()
     {
         if (Tools::isSubmit('id_supply_order') && !Tools::isSubmit('display_product_history')) {
+            $id_supply_order = (int)Tools::getValue('id_supply_order', null);
+            $supply_order = new SupplyOrder($id_supply_order);
+            $this->toolbar_title = sprintf($this->l('Supply Order #%s'), $supply_order->reference);
             $this->identifier = 'id_supply_order_history';
             $this->table = 'supply_order_history';
             $this->lang = false;
@@ -246,20 +263,23 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
             $this->_orderBy = 'a.date_add';
             $this->_orderWay = 'ASC';
             $first_list = AdminController::renderList();
-           
+            
             return $first_list; //XXX
         } 
     }
        
-
     /*
     * module: supplyordervoucherpdf
     * date: 2016-11-10 22:38:24
     * version: 1.0
     */
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
+    * version: 1.0
+    */
     public function renderForm()
     {   
-        //get next auto number of supply order id as use as supply order referrence
         $DefaultSOReference = Configuration::get('POREF_Placeholder').sprintf('%06d',(string)$this->getCurrentSupplyOrderID());
         if (Tools::isSubmit('addsupply_order') ||
             Tools::isSubmit('updatesupply_order') ||
@@ -422,11 +442,14 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
             return AdminController::renderForm();
         }
     }
-
-
     /*
     * module: supplyordervoucherpdf
     * date: 2016-11-10 22:38:24
+    * version: 1.0
+    */
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
     * version: 1.0
     */
     protected function getCurrentSupplyOrderID()
@@ -436,10 +459,14 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     }
       
  
-
     /*
     * module: supplyordervoucherpdf
     * date: 2016-11-10 22:38:24
+    * version: 1.0
+    */
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
     * version: 1.0
     */
     protected function postProcessUpdateReceipt()
@@ -547,9 +574,13 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
     * date: 2016-11-10 22:38:24
     * version: 1.0
     */
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
+    * version: 1.0
+    */
     public function printDocument($id_supply_order, $tr)
     {    
-
         $content = '';
         $supply_order = new SupplyOrder((int)$id_supply_order);
       
@@ -558,15 +589,12 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
         if (!Validate::isLoadedObject($supply_order)) {
                 return;
         }
-
         $supply_order_state = new SupplyOrderState($supply_order->id_supply_order_state);
          
         if (!Validate::isLoadedObject($supply_order_state)) {
             return;
         }
-
         if ($supply_order_state->editable == false) {
-
             $content .= '<style>.bootstrap .popover{max-width:500px}</style>
                                 <a data-toggle="popover" tabindex="0" role="button" rel="popover" class="btn btn-default po-doc-popover"><i class="icon-file-text"></i></a>
                                 <div class="po-doc-popover-content" style="display: none">
@@ -585,7 +613,6 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
                                             </tr>
                                         </thead>
                                         <tbody>';
-
                 foreach ($supply_order_vouchers as $supply_order_voucher) { 
                             
                     $content .= '<tr><td>'.Configuration::get('GRNREF_Placeholder').$supply_order_voucher->id.'</td>';
@@ -605,10 +632,13 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
         }
     }
     
-
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
+    * version: 1.0
+    */
     public function printDocumentByAuditTrailLineGRN($id_supply_order_voucher, $tr)
     {    
-
         $content = '';
         $supply_order_voucher = new SupplyOrderVoucher((int)$id_supply_order_voucher);
         $supply_order = new SupplyOrder((int)$supply_order_voucher->id_supply_order);
@@ -620,13 +650,11 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
         if (!Validate::isLoadedObject($supply_order)) {
             return;
         }
-
         $supply_order_state = new SupplyOrderState($supply_order->id_supply_order_state);
          
         if (!Validate::isLoadedObject($supply_order_state)) {
             return;
         }
-
         if ($supply_order_state->editable == false) {
          
             $content .= '<a href="'.$this->context->link->getAdminLink('AdminPdf')
@@ -634,11 +662,13 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
             return $content;
         }
     }
-
-
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
+    * version: 1.0
+    */
     public function printDocumentByAuditTrailLineVOU($id_supply_order_voucher, $tr)
     {    
-
         $content = '';
         $supply_order_voucher = new SupplyOrderVoucher((int)$id_supply_order_voucher);
         $supply_order = new SupplyOrder((int)$supply_order_voucher->id_supply_order);
@@ -650,13 +680,11 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
         if (!Validate::isLoadedObject($supply_order)) {
             return;
         }
-
         $supply_order_state = new SupplyOrderState($supply_order->id_supply_order_state);
          
         if (!Validate::isLoadedObject($supply_order_state)) {
             return;
         }
-
         if ($supply_order_state->editable == false) {
          
             $content .= '<a href="'.$this->context->link->getAdminLink('AdminPdf')
@@ -664,13 +692,14 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
             return $content;
         }
     }
-
-
-
-
     /*
     * module: supplyordervoucherpdf
     * date: 2016-11-10 22:38:24
+    * version: 1.0
+    */
+    /*
+    * module: supplyordervoucherpdf
+    * date: 2016-11-27 14:47:26
     * version: 1.0
     */
     public function detailsQuantityByAuditTrailLine($id_supply_order_voucher, $tr)
@@ -687,13 +716,11 @@ class AdminSupplyOrdersController extends AdminSupplyOrdersControllerCore
         if (!Validate::isLoadedObject($supply_order)) {
            return;
         }
-
         $supply_order_state = new SupplyOrderState($supply_order->id_supply_order_state);
          
         if (!Validate::isLoadedObject($supply_order_state)) {
             return;
         }
-
         if ($supply_order_state->editable == false) {
          
             $content .= '<style>.bootstrap .popover{max-width:500px}</style>
